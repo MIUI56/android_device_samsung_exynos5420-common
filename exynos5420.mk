@@ -36,13 +36,31 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/audio/audio_effects.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.conf \
     $(COMMON_PATH)/configs/audio/audio_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy.conf
 
+# Bluetooth HAL
+PRODUCT_PACKAGES += \
+    android.hardware.bluetooth@1.0-impl \
+    libbt-vendor
+
 # Boot animation
 TARGET_BOOTANIMATION_HALF_RES := true
 
 # Camera
 PRODUCT_PACKAGES += \
+    camera.device@1.0-impl.exynos5420 \
+    android.hardware.camera.provider@2.4-impl.exynos5420 \
     camera.universal5420 \
+    libshim_camera \
     libhwjpeg
+
+# Configstore
+PRODUCT_PACKAGES += \
+    android.hardware.configstore@1.1-service
+
+# DRM - leaving in both until DRM is figured out
+PRODUCT_PACKAGES += \
+    android.hardware.drm@1.0-impl \
+    android.hardware.drm@1.0-service
+
 
 # First Stage Mount
 PRODUCT_COPY_FILES += \
@@ -51,20 +69,25 @@ PRODUCT_COPY_FILES += \
 
 #GPS
 PRODUCT_PACKAGES += \
-    android.hardware.gnss@1.0-impl
+    android.hardware.gnss@1.1-impl
 
 # Graphics
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.composer@2.1-impl \
-    android.hardware.graphics.mapper@2.0-impl-2.1 \
+    android.hardware.graphics.mapper@2.0-impl \
     android.hardware.renderscript@1.0-impl \
     gralloc.exynos5 \
     libhwc2on1adapter \
     libion \
     libfimg \
     libgutils
+
+# Health HAL
+PRODUCT_PACKAGES += \
+    android.hardware.health@2.0-impl \
+    android.hardware.health@2.0-service
 
 # IR
 PRODUCT_PACKAGES += \
@@ -79,13 +102,16 @@ PRODUCT_COPY_FILES += \
 
 # Keymaster
 PRODUCT_PACKAGES += \
+    android.hardware.keymaster@3.0-impl
     keystore.exynos5 \
-    android.hardware.keymaster@3.0-impl \
-    android.hardware.keymaster@3.0-service
 
 # Lights
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service.samsung
+
+# LiveDisplay
+PRODUCT_PACKAGES += \
+    vendor.lineage.livedisplay@2.0-service.samsung-exynos
 
 # Media profile
 PRODUCT_COPY_FILES += \
@@ -102,9 +128,21 @@ PRODUCT_PACKAGES += \
 
 # MobiCore setup
 PRODUCT_PACKAGES += \
-    mcDriverDaemon \
     libMcClient \
-    libMcRegistry
+    libMcRegistry \
+    libPaApi \
+    libgdmcprov
+
+# Network tools
+PRODUCT_PACKAGES += \
+    libpcap \
+    tcpdump
+
+# OMX - taken from 14.1 repo
+PRODUCT_PACKAGES += \
+    libcsc \
+    libOMX.Exynos.WMV.Decoder \
+    libOMX.Exynos.MPEG2.Decoder
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -130,18 +168,16 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.freeform_window_management.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.software.freeform_window_management.xml
 
 # Power
+#     android.hardware.power@1.0-service.exynos
 PRODUCT_PACKAGES += \
-    android.hardware.power@1.0-service.exynos
-
-# Bluetooth HAL
-PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.0-impl \
-    libbt-vendor
+    power.universal5420 \
+    android.hardware.power@1.0-impl
 
 # Ramdisk
 PRODUCT_PACKAGES += \
     init.samsung.rc \
     init.universal5420.rc \
+    init.recovery.universal5420.rc \
     init.universal5420.usb.rc \
     init.universal5420.wifi.rc
 
@@ -150,6 +186,10 @@ PRODUCT_PACKAGES += \
     libsecril-client \
     libsecril-client-sap
 
+# Samsung Doze - comment out temp until testing
+#PRODUCT_PACKAGES += \
+#    SamsungDoze
+
 # Seccomp Filters
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/seccomp/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
@@ -157,7 +197,15 @@ PRODUCT_COPY_FILES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    android.hardware.sensors@1.0-impl
+    android.hardware.sensors@1.0-impl \
+    sensors.exynos5
+
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/sensors/_hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/_hals.conf
+
+# THERMAL
+PRODUCT_PACKAGES += \
+    android.hardware.thermal@1.1-impl
 
 # Touch features
 PRODUCT_PACKAGES += \
@@ -169,22 +217,23 @@ PRODUCT_PACKAGES += \
 
 # Vibrator HAL
 PRODUCT_PACKAGES += \
-    android.hardware.vibrator@1.0-impl \
-    android.hardware.vibrator@1.0-service
+    android.hardware.vibrator@1.0-impl
 
 # USB HAL
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.0-service.basic
+    android.hardware.usb@1.0-service.basic \
+    android.hardware.usb.gadget@1.0-impl
 
 # WiFi HAL
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
+    android.hardware.wifi.offload@1.0-service \
     hostapd \
+    hostapd_default.conf \
     libwpa_client \
     wificond \
     wifilogd \
     wlutil \
-    wifiloader \
     wpa_supplicant \
     wpa_supplicant.conf
 
@@ -195,6 +244,10 @@ PRODUCT_COPY_FILES += \
 # IO Scheduler
 PRODUCT_PROPERTY_OVERRIDES += \
     sys.io.scheduler=bfq
+
+PRODUCT_PACKAGES += \
+    libnetcmdiface \
+    wifiloader
 
 # GPU producer to CPU consumer not supported
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -211,7 +264,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Enable multi-window by default
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.debug.multi_window=true
-	
+
 # Legacy stagefright media
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.legacyencoder=true \

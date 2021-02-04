@@ -40,6 +40,10 @@ BOARD_NEEDS_MEMORYHEAPION := true
 BOARD_GLOBAL_CFLAGS += -DSAMSUNG_DVFS
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 
+# Camera Shim
+TARGET_LD_SHIM_LIBS += \
+        /system/lib/libexynoscamera.so|libshim_camera.so
+
 # Force the screenshot path to CPU consumer
 TARGET_FORCE_SCREENSHOT_CPU_PATH := true
 
@@ -81,8 +85,15 @@ TARGET_SPECIFIC_HEADER_PATH += $(COMMON_PATH)/include
 # Hardware
 BOARD_HARDWARE_CLASS += hardware/samsung/lineagehw
 
+# HIDL
+DEVICE_MANIFEST_FILE := $(COMMON_PATH)/manifest.xml
+DEVICE_MATRIX_FILE := $(COMMON_PATH)/compatibility_matrix.xml
+
 # Keymaster
 BOARD_USES_TRUST_KEYMASTER := true
+
+# Lineage Hardware
+JAVA_SOURCE_OVERLAYS := org.lineageos.hardware|$(COMMON_PATH)/lineagehw|**/*.java
 
 # Media
 BOARD_USE_SAMSUNG_CAMERAFORMAT_NV21 := true
