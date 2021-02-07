@@ -33,3 +33,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # sdcardfs
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sys.sdcardfs=true
+
+# Vendor security patch level
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lineage.build.vendor_security_patch=2020-08-01
+
