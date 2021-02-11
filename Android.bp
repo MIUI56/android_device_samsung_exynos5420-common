@@ -1,3 +1,9 @@
+soong_namespace {
+}
+
 subdirs = [
-    "sensors",
+     "bluetooth_impl",
+	 "livedisplay",
+	 "sensors",
+	 "gnss",
 ]

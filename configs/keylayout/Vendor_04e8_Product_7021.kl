@@ -136,7 +136,7 @@ key 113   VOLUME_MUTE
 
 key 114   VOLUME_DOWN
 key 115   VOLUME_UP
-key 116   POWER             
+key 116   POWER             WAKE
 key 117   NUMPAD_EQUALS
 # key 118 "KEY_KPPLUSMINUS"
 key 119   BREAK
@@ -147,7 +147,7 @@ key 122   LANG
 # key 124 "KEY_YEN"
 key 125   META_LEFT
 key 126   META_RIGHT
-key 127   MENU             
+key 127   MENU              WAKE_DROPPED
 key 128   MEDIA_STOP
 # key 129 "KEY_AGAIN"
 # key 130 "KEY_PROPS"
@@ -159,7 +159,7 @@ key 128   MEDIA_STOP
 # key 136 "KEY_FIND"
 # key 137 "KEY_CUT"
 # key 138 "KEY_HELP"
-key 139   MENU             
+key 139   MENU              WAKE_DROPPED
 # key 140 "KEY_CALC"
 # key 141 "KEY_SETUP"
 # key 142 "KEY_SLEEP"
@@ -173,13 +173,13 @@ key 139   MENU
 key 150   EXPLORER
 # key 151 "KEY_MSDOS"
 # key 152 "KEY_COFFEE"
-key 152 POWER               
+key 152 POWER                WAKE
 # key 153 "KEY_DIRECTION"
 # key 154 "KEY_CYCLEWINDOWS"
 key 155   EMAIL
 key 156   BOOKMARK
 # key 157 "KEY_COMPUTER"
-key 158   BACK              
+key 158   BACK              WAKE_DROPPED
 key 159   FORWARD
 key 160   MEDIA_CLOSE
 key 161   MEDIA_EJECT
@@ -392,17 +392,3 @@ key 705 APPLICATION
 key 706 SIP_ON_OFF
 key 707 VOICESEARCH
 key 708 QPANEL_ON_OFF
-
-
-# LEDs
-led 0x00 NUM_LOCK
-led 0x01 CAPS_LOCK
-led 0x02 SCROLL_LOCK
-led 0x03 COMPOSE
-led 0x04 KANA
-led 0x05 SLEEP
-led 0x06 SUSPEND
-led 0x07 MUTE
-led 0x08 MISC
-led 0x09 MAIL
-led 0x0a CHARGING
